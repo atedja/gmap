@@ -12,11 +12,12 @@ var timeformats = []string{
 	"2006-01-02 15:04:05 -0700 MST",
 }
 
-type Map map[string]interface{}
-
 var ErrTypeMismatch = errors.New("Key type mismatch")
 var ErrElementTypeMismatch = errors.New("One of the elements type mismatch")
 var ErrKeyDoesNotExist = errors.New("Key does not exist")
+
+// Map provides various utility functions for map[string]interface{}.
+type Map map[string]interface{}
 
 // Retrieves another Map (map[string]interface{}).
 // Returns the default value and an error if key does not exist or nil.
