@@ -5,10 +5,6 @@ import (
 	"github.com/atedja/gmap"
 )
 
-func Pricey(k string, v interface{}) bool {
-	return v.(int) > 100
-}
-
 func ExampleGMap_Reject() {
 	var prices = gmap.GMap{}
 	prices["toothpaste"] = 100
@@ -16,6 +12,8 @@ func ExampleGMap_Reject() {
 	prices["watermelons"] = 200
 	prices["vodka"] = 400
 
-	result := prices.Reject(Pricey)
-	fmt.Println(result)
+	cheap := prices.Reject(func(k string, v interface{}) bool {
+		return v.(int) > 100
+	})
+	fmt.Println(cheap)
 }

@@ -5,10 +5,6 @@ import (
 	"github.com/atedja/gmap"
 )
 
-func Cheap(k string, v interface{}) bool {
-	return v.(int) < 100
-}
-
 func ExampleGMap_Select() {
 	var prices = gmap.GMap{}
 	prices["toothpaste"] = 100
@@ -16,6 +12,8 @@ func ExampleGMap_Select() {
 	prices["watermelons"] = 200
 	prices["vodka"] = 400
 
-	result := prices.Select(Cheap)
-	fmt.Println(result)
+	cheap := prices.Select(func(k string, v interface{}) bool {
+		return v.(int) < 100
+	})
+	fmt.Println(cheap)
 }

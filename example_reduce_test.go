@@ -18,7 +18,6 @@ func ExampleGMap_Reduce() {
 	distances["San Diego"] = 120
 	distances["Sacramento"] = 384
 
-	var gallons = gmap.GMap{}
-	distances.Reduce(gallons, GallonUsage)
+	gallons := distances.Reduce(gmap.GMap{}, GallonUsage)
 	fmt.Println(gallons)
 }
