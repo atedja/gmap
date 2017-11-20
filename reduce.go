@@ -6,13 +6,13 @@ type ReduceFunc func(memo interface{}, k string, v interface{}) interface{}
 // For each entry, the ReduceFunc is passed a memo value from previous iteration and the key-value pair.
 // The result becomes the memo value for the next iteration.
 // Returns the final memo result.
-func (g Map) Reduce(initial interface{}, reduceFn ReduceFunc) interface{} {
+func (m Map) Reduce(initial interface{}, reduceFn ReduceFunc) interface{} {
 	if reduceFn == nil {
 		return initial
 	}
 
 	memo := initial
-	for k, v := range g {
+	for k, v := range m {
 		memo = reduceFn(memo, k, v)
 	}
 	return memo
