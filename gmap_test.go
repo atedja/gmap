@@ -255,8 +255,21 @@ func TestSlice(t *testing.T) {
 	gmap["cake"] = "is a lie"
 	gmap["beer"] = "free"
 	gmap["count"] = 10
-	np := gmap.Slice("cake", "count")
-	assert.Equal(t, "is a lie", np["cake"])
-	assert.Equal(t, nil, np["beer"])
-	assert.Equal(t, 10, np["count"])
+	mp := gmap.Slice("cake", "count")
+	assert.Equal(t, "is a lie", mp["cake"])
+	assert.Equal(t, nil, mp["beer"])
+	assert.Equal(t, 10, mp["count"])
+}
+
+func TestExcept(t *testing.T) {
+	var gmap Map
+
+	gmap = Map{}
+	gmap["cake"] = "is a lie"
+	gmap["beer"] = "free"
+	gmap["count"] = 10
+	mp := gmap.Except("cake", "count")
+	assert.Equal(t, nil, mp["cake"])
+	assert.Equal(t, "free", mp["beer"])
+	assert.Equal(t, nil, mp["count"])
 }

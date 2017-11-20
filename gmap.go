@@ -232,3 +232,17 @@ func (m Map) Slice(keys ...string) Map {
 
 	return mp
 }
+
+// Returns a new Map except the given keys.
+func (m Map) Except(keys ...string) Map {
+	mp := Map{}
+	for k, v := range m {
+		mp[k] = v
+	}
+
+	for _, k := range keys {
+		delete(mp, k)
+	}
+
+	return mp
+}
