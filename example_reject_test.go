@@ -6,7 +6,7 @@ import (
 )
 
 func ExampleGMap_Reject() {
-	var prices = gmap.GMap{}
+	var prices = gmap.Map{}
 	prices["toothpaste"] = 100
 	prices["cookies"] = 80
 	prices["watermelons"] = 200

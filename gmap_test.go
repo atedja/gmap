@@ -27,11 +27,11 @@ const testPayload = `
 `
 
 func TestString(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
 	var value string
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 
@@ -45,29 +45,29 @@ func TestString(t *testing.T) {
 }
 
 func TestGMap(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
-	var value GMap
+	var value Map
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 
-	value, err = gmap.GMap("Hash", nil)
+	value, err = gmap.Map("Hash", nil)
 	assert.Nil(t, err)
 	assert.EqualValues(t, value["SubKey"], "Value")
 
-	value, err = gmap.GMap("DoesNotExist", nil)
+	value, err = gmap.Map("DoesNotExist", nil)
 	assert.NotNil(t, err)
 	assert.Nil(t, value)
 }
 
 func TestArray(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
 	var value []interface{}
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 
@@ -85,11 +85,11 @@ func TestArray(t *testing.T) {
 }
 
 func TestInt(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
 	var value int
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 
@@ -101,11 +101,11 @@ func TestInt(t *testing.T) {
 }
 
 func TestFloat(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
 	var value float64
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 
@@ -117,11 +117,11 @@ func TestFloat(t *testing.T) {
 }
 
 func TestBoolean(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
 	var value bool
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 
@@ -133,11 +133,11 @@ func TestBoolean(t *testing.T) {
 }
 
 func TestStringArray(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
 	var value []string
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 
@@ -147,12 +147,12 @@ func TestStringArray(t *testing.T) {
 }
 
 func TestTime(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
 	var value time.Time
 	var zone string
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 
@@ -199,12 +199,12 @@ func TestTime(t *testing.T) {
 }
 
 func TestTimeUTC(t *testing.T) {
-	var gmap GMap
+	var gmap Map
 	var err error
 	var value time.Time
 	var zone string
 
-	gmap = GMap{}
+	gmap = Map{}
 	err = json.Unmarshal([]byte(testPayload), &gmap)
 	assert.Nil(t, err)
 

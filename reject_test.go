@@ -10,7 +10,7 @@ func Pricey(k string, v interface{}) bool {
 }
 
 func TestReject(t *testing.T) {
-	var prices = GMap{}
+	var prices = Map{}
 	prices["toothpaste"] = 100
 	prices["cookies"] = 80
 	prices["watermelons"] = 200

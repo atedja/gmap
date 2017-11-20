@@ -12,16 +12,16 @@ var timeformats = []string{
 	"2006-01-02 15:04:05 -0700 MST",
 }
 
-type GMap map[string]interface{}
+type Map map[string]interface{}
 
 var ErrTypeMismatch = errors.New("Key type mismatch")
 var ErrElementTypeMismatch = errors.New("One of the elements type mismatch")
 var ErrKeyDoesNotExist = errors.New("Key does not exist")
 
-// Retrieves another GMap (map[string]interface{}).
+// Retrieves another Map (map[string]interface{}).
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) GMap(key string, def GMap) (GMap, error) {
-	value, ok := g[key]
+func (m Map) Map(key string, def Map) (Map, error) {
+	value, ok := m[key]
 	if !ok {
 		return def, ErrKeyDoesNotExist
 	}
@@ -32,7 +32,7 @@ func (g GMap) GMap(key string, def GMap) (GMap, error) {
 
 	switch value.(type) {
 	case map[string]interface{}:
-		return GMap(value.(map[string]interface{})), nil
+		return Map(value.(map[string]interface{})), nil
 	default:
 		return def, ErrTypeMismatch
 	}
@@ -40,8 +40,8 @@ func (g GMap) GMap(key string, def GMap) (GMap, error) {
 
 // Retrieves an array of interface{}.
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) Array(key string, def []interface{}) ([]interface{}, error) {
-	value, ok := g[key]
+func (m Map) Array(key string, def []interface{}) ([]interface{}, error) {
+	value, ok := m[key]
 	if !ok {
 		return def, ErrKeyDoesNotExist
 	}
@@ -60,8 +60,8 @@ func (g GMap) Array(key string, def []interface{}) ([]interface{}, error) {
 
 // Retrieves an int.
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) Int(key string, def int) (int, error) {
-	value, ok := g[key]
+func (m Map) Int(key string, def int) (int, error) {
+	value, ok := m[key]
 	if !ok {
 		return def, ErrKeyDoesNotExist
 	}
@@ -84,8 +84,8 @@ func (g GMap) Int(key string, def int) (int, error) {
 
 // Retrieves a float.
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) Float(key string, def float64) (float64, error) {
-	value, ok := g[key]
+func (m Map) Float(key string, def float64) (float64, error) {
+	value, ok := m[key]
 	if !ok {
 		return def, ErrKeyDoesNotExist
 	}
@@ -104,8 +104,8 @@ func (g GMap) Float(key string, def float64) (float64, error) {
 
 // Retrieves a string.
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) String(key string, def string) (string, error) {
-	value, ok := g[key]
+func (m Map) String(key string, def string) (string, error) {
+	value, ok := m[key]
 	if !ok {
 		return def, ErrKeyDoesNotExist
 	}
@@ -124,8 +124,8 @@ func (g GMap) String(key string, def string) (string, error) {
 
 // Retrieves a boolean.
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) Boolean(key string, def bool) (bool, error) {
-	value, ok := g[key]
+func (m Map) Boolean(key string, def bool) (bool, error) {
+	value, ok := m[key]
 	if !ok {
 		return def, ErrKeyDoesNotExist
 	}
@@ -144,8 +144,8 @@ func (g GMap) Boolean(key string, def bool) (bool, error) {
 
 // Retrieves a string array.
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) StringArray(key string, def []string) ([]string, error) {
-	value, ok := g[key]
+func (m Map) StringArray(key string, def []string) ([]string, error) {
+	value, ok := m[key]
 	if !ok {
 		return def, ErrKeyDoesNotExist
 	}
@@ -181,8 +181,8 @@ func (g GMap) StringArray(key string, def []string) ([]string, error) {
 // Retrieves time.
 // Can convert time value if it's a string and in the recognized format.
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) Time(key string, def time.Time) (time.Time, error) {
-	value, ok := g[key]
+func (m Map) Time(key string, def time.Time) (time.Time, error) {
+	value, ok := m[key]
 	if !ok {
 		return def, ErrKeyDoesNotExist
 	}
@@ -215,7 +215,7 @@ func (g GMap) Time(key string, def time.Time) (time.Time, error) {
 // Retrieves time, but also converts to UTC.
 // Can convert time value if it's a string and in the recognized format.
 // Returns the default value and an error if key does not exist or nil.
-func (g GMap) TimeUTC(key string, def time.Time) (time.Time, error) {
-	t, err := g.Time(key, def)
+func (m Map) TimeUTC(key string, def time.Time) (time.Time, error) {
+	t, err := m.Time(key, def)
 	return t.UTC(), err
 }
