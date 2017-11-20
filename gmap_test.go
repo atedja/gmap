@@ -21,7 +21,7 @@ const testPayload = `
  ],
  "TimeISO": "2017-07-10T12:13:47Z",
  "TimeRuby": "2017-07-10 12:13:47 UTC",
- "TimeRuby2": "2017-07-10 12:13:47 -0700",
+ "TimeRuby2": "2017-07-10 12:13:47 -0200",
  "TimeDefault": "2017-07-10 12:13:47 -0700 PDT"
 }
 `
@@ -184,8 +184,6 @@ func TestTime(t *testing.T) {
 	assert.Equal(t, 12, value.Hour())
 	assert.Equal(t, 13, value.Minute())
 	assert.Equal(t, 47, value.Second())
-	zone, _ = value.Zone()
-	assert.Equal(t, "PDT", zone)
 
 	value, _ = gmap.Time("TimeDefault", def)
 	assert.Equal(t, time.July, value.Month())
@@ -233,7 +231,7 @@ func TestTimeUTC(t *testing.T) {
 	assert.Equal(t, time.July, value.Month())
 	assert.Equal(t, 10, value.Day())
 	assert.Equal(t, 2017, value.Year())
-	assert.Equal(t, 19, value.Hour()) // 19 not 12. move forward 7 hours
+	assert.Equal(t, 14, value.Hour()) // 14 not 12. move backward 2 hours
 	assert.Equal(t, 13, value.Minute())
 	assert.Equal(t, 47, value.Second())
 	zone, _ = value.Zone()
@@ -243,7 +241,7 @@ func TestTimeUTC(t *testing.T) {
 	assert.Equal(t, time.July, value.Month())
 	assert.Equal(t, 10, value.Day())
 	assert.Equal(t, 2017, value.Year())
-	assert.Equal(t, 19, value.Hour()) // 19 not 12. move forward 7 hours
+	assert.Equal(t, 19, value.Hour()) // 19 not 12. move backward 7 hours
 	assert.Equal(t, 13, value.Minute())
 	assert.Equal(t, 47, value.Second())
 	zone, _ = value.Zone()
