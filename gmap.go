@@ -178,7 +178,7 @@ func (g GMap) StringArray(key string, def []string) ([]string, error) {
 	}
 }
 
-// Retrieves time, also converts to UTC.
+// Retrieves time.
 // Can convert time value if it's a string and in the recognized format.
 // Returns the default value and an error if key does not exist or nil.
 func (g GMap) Time(key string, def time.Time) (time.Time, error) {
@@ -194,7 +194,7 @@ func (g GMap) Time(key string, def time.Time) (time.Time, error) {
 	switch value.(type) {
 	case time.Time:
 		val := value.(time.Time)
-		return val.UTC(), nil
+		return val, nil
 
 	case string:
 		var t time.Time
@@ -202,7 +202,7 @@ func (g GMap) Time(key string, def time.Time) (time.Time, error) {
 		for _, tf := range timeformats {
 			t, err = time.Parse(tf, value.(string))
 			if err == nil {
-				return t.UTC(), nil
+				return t, nil
 			}
 		}
 		return t, err
@@ -210,4 +210,12 @@ func (g GMap) Time(key string, def time.Time) (time.Time, error) {
 	default:
 		return def, ErrTypeMismatch
 	}
+}
+
+// Retrieves time, but also converts to UTC.
+// Can convert time value if it's a string and in the recognized format.
+// Returns the default value and an error if key does not exist or nil.
+func (g GMap) TimeUTC(key string, def time.Time) (time.Time, error) {
+	t, err := g.Time(key, def)
+	return t.UTC(), err
 }

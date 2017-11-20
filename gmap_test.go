@@ -181,13 +181,65 @@ func TestTime(t *testing.T) {
 	assert.Equal(t, time.July, value.Month())
 	assert.Equal(t, 10, value.Day())
 	assert.Equal(t, 2017, value.Year())
+	assert.Equal(t, 12, value.Hour())
+	assert.Equal(t, 13, value.Minute())
+	assert.Equal(t, 47, value.Second())
+	zone, _ = value.Zone()
+	assert.Equal(t, "PDT", zone)
+
+	value, _ = gmap.Time("TimeDefault", def)
+	assert.Equal(t, time.July, value.Month())
+	assert.Equal(t, 10, value.Day())
+	assert.Equal(t, 2017, value.Year())
+	assert.Equal(t, 12, value.Hour())
+	assert.Equal(t, 13, value.Minute())
+	assert.Equal(t, 47, value.Second())
+	zone, _ = value.Zone()
+	assert.Equal(t, "PDT", zone)
+}
+
+func TestTimeUTC(t *testing.T) {
+	var gmap GMap
+	var err error
+	var value time.Time
+	var zone string
+
+	gmap = GMap{}
+	err = json.Unmarshal([]byte(testPayload), &gmap)
+	assert.Nil(t, err)
+
+	def := time.Now()
+	value, _ = gmap.TimeUTC("TimeISO", def)
+	assert.Equal(t, time.July, value.Month())
+	assert.Equal(t, 10, value.Day())
+	assert.Equal(t, 2017, value.Year())
+	assert.Equal(t, 12, value.Hour())
+	assert.Equal(t, 13, value.Minute())
+	assert.Equal(t, 47, value.Second())
+	zone, _ = value.Zone()
+	assert.Equal(t, "UTC", zone)
+
+	value, _ = gmap.TimeUTC("TimeRuby", def)
+	assert.Equal(t, time.July, value.Month())
+	assert.Equal(t, 10, value.Day())
+	assert.Equal(t, 2017, value.Year())
+	assert.Equal(t, 12, value.Hour())
+	assert.Equal(t, 13, value.Minute())
+	assert.Equal(t, 47, value.Second())
+	zone, _ = value.Zone()
+	assert.Equal(t, "UTC", zone)
+
+	value, _ = gmap.TimeUTC("TimeRuby2", def)
+	assert.Equal(t, time.July, value.Month())
+	assert.Equal(t, 10, value.Day())
+	assert.Equal(t, 2017, value.Year())
 	assert.Equal(t, 19, value.Hour()) // 19 not 12. move forward 7 hours
 	assert.Equal(t, 13, value.Minute())
 	assert.Equal(t, 47, value.Second())
 	zone, _ = value.Zone()
 	assert.Equal(t, "UTC", zone)
 
-	value, _ = gmap.Time("TimeDefault", def)
+	value, _ = gmap.TimeUTC("TimeDefault", def)
 	assert.Equal(t, time.July, value.Month())
 	assert.Equal(t, 10, value.Day())
 	assert.Equal(t, 2017, value.Year())
