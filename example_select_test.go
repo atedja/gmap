@@ -5,7 +5,7 @@ import (
 	"github.com/atedja/gmap"
 )
 
-func ExampleGMap_Select() {
+func ExampleMap_Select() {
 	var prices = gmap.Map{}
 	prices["toothpaste"] = 100
 	prices["cookies"] = 80

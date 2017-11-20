@@ -5,7 +5,7 @@ import (
 	"github.com/atedja/gmap"
 )
 
-func ExampleGMap_Reject() {
+func ExampleMap_Reject() {
 	var prices = gmap.Map{}
 	prices["toothpaste"] = 100
 	prices["cookies"] = 80
