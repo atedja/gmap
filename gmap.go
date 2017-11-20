@@ -18,7 +18,7 @@ var ErrTypeMismatch = errors.New("Key type mismatch")
 var ErrElementTypeMismatch = errors.New("One of the elements type mismatch")
 var ErrKeyDoesNotExist = errors.New("Key does not exist")
 
-// Retrieves another GMap (map[string]interface{})
+// Retrieves another GMap (map[string]interface{}).
 // Returns the default value and an error if key does not exist or nil.
 func (g GMap) GMap(key string, def GMap) (GMap, error) {
 	value, ok := g[key]
@@ -38,7 +38,7 @@ func (g GMap) GMap(key string, def GMap) (GMap, error) {
 	}
 }
 
-// Retrieves an array of interface{}
+// Retrieves an array of interface{}.
 // Returns the default value and an error if key does not exist or nil.
 func (g GMap) Array(key string, def []interface{}) ([]interface{}, error) {
 	value, ok := g[key]
@@ -58,7 +58,7 @@ func (g GMap) Array(key string, def []interface{}) ([]interface{}, error) {
 	}
 }
 
-// Retrieves an int from a Json
+// Retrieves an int.
 // Returns the default value and an error if key does not exist or nil.
 func (g GMap) Int(key string, def int) (int, error) {
 	value, ok := g[key]
@@ -82,7 +82,7 @@ func (g GMap) Int(key string, def int) (int, error) {
 	}
 }
 
-// Retrieves a float from a Json
+// Retrieves a float.
 // Returns the default value and an error if key does not exist or nil.
 func (g GMap) Float(key string, def float64) (float64, error) {
 	value, ok := g[key]
@@ -102,7 +102,7 @@ func (g GMap) Float(key string, def float64) (float64, error) {
 	}
 }
 
-// Retrieves a string from a Json.
+// Retrieves a string.
 // Returns the default value and an error if key does not exist or nil.
 func (g GMap) String(key string, def string) (string, error) {
 	value, ok := g[key]
@@ -122,7 +122,7 @@ func (g GMap) String(key string, def string) (string, error) {
 	}
 }
 
-// Retrieves a boolean from a Json.
+// Retrieves a boolean.
 // Returns the default value and an error if key does not exist or nil.
 func (g GMap) Boolean(key string, def bool) (bool, error) {
 	value, ok := g[key]
@@ -142,7 +142,7 @@ func (g GMap) Boolean(key string, def bool) (bool, error) {
 	}
 }
 
-// Retrieves a string array from a Json.
+// Retrieves a string array.
 // Returns the default value and an error if key does not exist or nil.
 func (g GMap) StringArray(key string, def []string) ([]string, error) {
 	value, ok := g[key]
