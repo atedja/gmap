@@ -11,7 +11,7 @@ func GallonUsage(memo interface{}, k string, v interface{}) interface{} {
 	return m
 }
 
-func Example() {
+func ExampleGMap_Reduce() {
 	var distances = gmap.GMap{}
 	distances["Las Vegas"] = 269
 	distances["San Francisco"] = 382
