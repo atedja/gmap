@@ -247,3 +247,16 @@ func TestTimeUTC(t *testing.T) {
 	zone, _ = value.Zone()
 	assert.Equal(t, "UTC", zone)
 }
+
+func TestSlice(t *testing.T) {
+	var gmap Map
+
+	gmap = Map{}
+	gmap["cake"] = "is a lie"
+	gmap["beer"] = "free"
+	gmap["count"] = 10
+	np := gmap.Slice("cake", "count")
+	assert.Equal(t, "is a lie", np["cake"])
+	assert.Equal(t, nil, np["beer"])
+	assert.Equal(t, 10, np["count"])
+}

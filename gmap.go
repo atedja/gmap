@@ -220,3 +220,15 @@ func (m Map) TimeUTC(key string, def time.Time) (time.Time, error) {
 	t, err := m.Time(key, def)
 	return t.UTC(), err
 }
+
+// Slices this map to return a new Map with only the given keys.
+func (m Map) Slice(keys ...string) Map {
+	mp := Map{}
+	for _, k := range keys {
+		if v, ok := m[k]; ok {
+			mp[k] = v
+		}
+	}
+
+	return mp
+}
