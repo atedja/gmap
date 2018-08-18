@@ -2,6 +2,7 @@ package gmap
 
 import (
 	"errors"
+	"strconv"
 	"time"
 )
 
@@ -34,6 +35,19 @@ func (m Map) Map(key string, def Map) (Map, error) {
 	switch value.(type) {
 	case map[string]interface{}:
 		return Map(value.(map[string]interface{})), nil
+	case map[interface{}]interface{}:
+		mp := Map{}
+		mi := value.(map[interface{}]interface{})
+		for k, v := range mi {
+			ks, err := interfaceToString(k)
+			if err != nil {
+				return def, ErrTypeMismatch
+			}
+			mp[ks] = v
+		}
+		return mp, nil
+	case Map:
+		return value.(Map), nil
 	default:
 		return def, ErrTypeMismatch
 	}
@@ -115,12 +129,7 @@ func (m Map) String(key string, def string) (string, error) {
 		return def, ErrTypeMismatch
 	}
 
-	switch value.(type) {
-	case string:
-		return value.(string), nil
-	default:
-		return def, ErrTypeMismatch
-	}
+	return interfaceToString(value)
 }
 
 // Retrieves a boolean.
@@ -245,4 +254,24 @@ func (m Map) Except(keys ...string) Map {
 	}
 
 	return mp
+}
+
+// Helper function to convert an interface{} to string
+func interfaceToString(v interface{}) (string, error) {
+	switch v.(type) {
+	case string:
+		return v.(string), nil
+	case bool:
+		return strconv.FormatBool(v.(bool)), nil
+	case float64:
+		return strconv.FormatFloat(v.(float64), 'f', -1, 64), nil
+	case int64:
+		return strconv.FormatInt(v.(int64), 10), nil
+	case uint64:
+		return strconv.FormatUint(v.(uint64), 10), nil
+	case int:
+		return strconv.Itoa(v.(int)), nil
+	default:
+		return "", ErrTypeMismatch
+	}
 }

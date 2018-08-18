@@ -62,6 +62,27 @@ func TestGMap(t *testing.T) {
 	assert.Nil(t, value)
 }
 
+func TestGMapFromObjects(t *testing.T) {
+	var gmap Map
+	var err error
+	var value Map
+
+	gmap = Map{
+		"someKey": Map{"value": 0},
+		"mapInterface": map[interface{}]interface{}{
+			"value": 1,
+		},
+	}
+
+	value, err = gmap.Map("someKey", nil)
+	assert.Nil(t, err)
+	assert.EqualValues(t, value["value"], 0)
+
+	value, err = gmap.Map("mapInterface", nil)
+	assert.Nil(t, err)
+	assert.EqualValues(t, value["value"], 1)
+}
+
 func TestArray(t *testing.T) {
 	var gmap Map
 	var err error
@@ -272,4 +293,30 @@ func TestExcept(t *testing.T) {
 	assert.Equal(t, nil, mp["cake"])
 	assert.Equal(t, "free", mp["beer"])
 	assert.Equal(t, nil, mp["count"])
+}
+
+func TestInterfaceToString(t *testing.T) {
+	var v interface{}
+	var s string
+	var err error
+
+	v = 10
+	s, err = interfaceToString(v)
+	assert.Nil(t, err)
+	assert.Equal(t, "10", s)
+
+	v = 10.05
+	s, err = interfaceToString(v)
+	assert.Nil(t, err)
+	assert.Equal(t, "10.05", s)
+
+	v = false
+	s, err = interfaceToString(v)
+	assert.Nil(t, err)
+	assert.Equal(t, "false", s)
+
+	v = int64(1000)
+	s, err = interfaceToString(v)
+	assert.Nil(t, err)
+	assert.Equal(t, "1000", s)
 }
