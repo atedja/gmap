@@ -2,6 +2,8 @@ package gmap
 
 import (
 	"encoding/json"
+	"fmt"
+	"net/url"
 	"testing"
 	"time"
 
@@ -22,9 +24,16 @@ const testPayload = `
  "TimeISO": "2017-07-10T12:13:47Z",
  "TimeRuby": "2017-07-10 12:13:47 UTC",
  "TimeRuby2": "2017-07-10 12:13:47 -0200",
- "TimeDefault": "2017-07-10 12:13:47 -0700 PDT"
+ "TimeDefault": "2017-07-10 12:13:47 -0700 PDT",
+ "StringAsInt": "100",
+ "StringAsFloat": "100.012",
+ "StringAsBool": "true"
 }
 `
+
+func init() {
+	fmt.Sprintln() // just so we can use fmt
+}
 
 func TestString(t *testing.T) {
 	var gmap Map
@@ -117,6 +126,9 @@ func TestInt(t *testing.T) {
 	value, _ = gmap.Int("Value", 0)
 	assert.EqualValues(t, 1, value)
 
+	value, _ = gmap.Int("StringAsInt", 0)
+	assert.EqualValues(t, 100, value)
+
 	value, _ = gmap.Int("DoesNotExist", 9)
 	assert.EqualValues(t, 9, value)
 }
@@ -133,6 +145,9 @@ func TestFloat(t *testing.T) {
 	value, _ = gmap.Float("Level", 0.0)
 	assert.EqualValues(t, 464.21, value)
 
+	value, _ = gmap.Float("StringAsFloat", 0.0)
+	assert.EqualValues(t, 100.012, value)
+
 	value, _ = gmap.Float("DoesNotExist", 10.0)
 	assert.EqualValues(t, 10.0, value)
 }
@@ -147,6 +162,9 @@ func TestBoolean(t *testing.T) {
 	assert.Nil(t, err)
 
 	value, _ = gmap.Boolean("Flag", false)
+	assert.EqualValues(t, true, value)
+
+	value, _ = gmap.Boolean("StringAsBool", false)
 	assert.EqualValues(t, true, value)
 
 	value, _ = gmap.Boolean("DoesNotExist", false)
@@ -293,6 +311,31 @@ func TestExcept(t *testing.T) {
 	assert.Equal(t, nil, mp["cake"])
 	assert.Equal(t, "free", mp["beer"])
 	assert.Equal(t, nil, mp["count"])
+}
+
+func TestFromUrlValues(t *testing.T) {
+	var gmap Map
+
+	uv := url.Values{}
+	uv["foo"] = []string{"bar"}
+	uv["hello"] = []string{"bar", "chomp", "bit"}
+	uv["nested[map]"] = []string{"what"}
+	uv["nested[is]"] = []string{"it"}
+	uv["nested[1]"] = []string{"this is one", "two"}
+	uv["nested[even][deeper]"] = []string{"easy there"}
+
+	gmap = Map{}
+	gmap.FromUrlValues(uv)
+	assert.Equal(t, "bar", gmap["foo"])
+	assert.Equal(t, []string{"bar", "chomp", "bit"}, gmap["hello"])
+
+	nestedMap := gmap["nested"].(Map)
+	assert.Equal(t, "what", nestedMap["map"])
+	assert.Equal(t, "it", nestedMap["is"])
+	assert.Equal(t, []string{"this is one", "two"}, nestedMap["1"])
+
+	nestedMap = nestedMap["even"].(Map)
+	assert.Equal(t, "easy there", nestedMap["deeper"])
 }
 
 func TestInterfaceToString(t *testing.T) {

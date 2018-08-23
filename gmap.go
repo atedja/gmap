@@ -2,7 +2,9 @@ package gmap
 
 import (
 	"errors"
+	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -92,6 +94,8 @@ func (m Map) Int(key string, def int) (int, error) {
 		return int(value.(int64)), nil
 	case float64:
 		return int(value.(float64)), nil
+	case string:
+		return strconv.Atoi(value.(string))
 	default:
 		return def, ErrTypeMismatch
 	}
@@ -112,6 +116,8 @@ func (m Map) Float(key string, def float64) (float64, error) {
 	switch value.(type) {
 	case float64:
 		return value.(float64), nil
+	case string:
+		return strconv.ParseFloat(value.(string), 64)
 	default:
 		return def, ErrTypeMismatch
 	}
@@ -147,6 +153,8 @@ func (m Map) Boolean(key string, def bool) (bool, error) {
 	switch value.(type) {
 	case bool:
 		return value.(bool), nil
+	case string:
+		return strconv.ParseBool(value.(string))
 	default:
 		return def, ErrTypeMismatch
 	}
@@ -254,6 +262,55 @@ func (m Map) Except(keys ...string) Map {
 	}
 
 	return mp
+}
+
+// Fills map with values from url.Values.
+// Recognizes keys that are in hash form such as 'foo[bar]' and creates a nested map.
+// Single-element string arrays will be unpacked to regular strings.
+func (m Map) FromUrlValues(values url.Values) {
+	for k, v := range values {
+		subkeys := strings.FieldsFunc(k, func(c rune) bool {
+			return c == '[' || c == ']'
+		})
+
+		// normal single keys
+		if len(subkeys) == 1 {
+			m[subkeys[0]] = v
+			if len(v) == 1 {
+				m[subkeys[0]] = v[0]
+			}
+			continue
+		}
+
+		// for multiple keys, make sure there are nested maps
+		submap := m
+		lastIndex := len(subkeys) - 1
+		var subkey string
+		for i := 0; i < lastIndex; i++ {
+			subkey = subkeys[i]
+			var mp Map
+			if submap[subkey] == nil {
+				mp = Map{}
+				submap[subkey] = mp
+			} else {
+				// if there already exists a key but has a different type than a map
+				// then we overwrite that value and replace it with a Map
+				switch submap[subkey].(type) {
+				case Map:
+					mp = submap[subkey].(Map)
+				default:
+					mp = Map{}
+					submap[subkey] = mp
+				}
+			}
+			submap = mp
+		}
+
+		submap[subkeys[lastIndex]] = v
+		if len(v) == 1 {
+			submap[subkeys[lastIndex]] = v[0]
+		}
+	}
 }
 
 // Helper function to convert an interface{} to string
