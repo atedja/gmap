@@ -46,7 +46,7 @@ func (m Map) Map(key string, def Map) (Map, error) {
 		mp := Map{}
 		mi := value.(map[interface{}]interface{})
 		for k, v := range mi {
-			ks, err := interfaceToString(k)
+			ks, err := interfaceToString(k, "")
 			if err != nil {
 				return def, ErrTypeMismatch
 			}
@@ -92,18 +92,7 @@ func (m Map) Int(key string, def int) (int, error) {
 		return def, ErrTypeMismatch
 	}
 
-	switch value.(type) {
-	case int:
-		return value.(int), nil
-	case int64:
-		return int(value.(int64)), nil
-	case float64:
-		return int(value.(float64)), nil
-	case string:
-		return strconv.Atoi(value.(string))
-	default:
-		return def, ErrTypeMismatch
-	}
+	return interfaceToInt(value, def)
 }
 
 // Retrieves a float.
@@ -119,6 +108,28 @@ func (m Map) Float(key string, def float64) (float64, error) {
 	}
 
 	switch value.(type) {
+	case uint:
+		return float64(value.(uint)), nil
+	case uint8:
+		return float64(value.(uint8)), nil
+	case uint16:
+		return float64(value.(uint16)), nil
+	case uint32:
+		return float64(value.(uint32)), nil
+	case uint64:
+		return float64(value.(uint64)), nil
+	case int:
+		return float64(value.(int)), nil
+	case int8:
+		return float64(value.(int8)), nil
+	case int16:
+		return float64(value.(int16)), nil
+	case int32:
+		return float64(value.(int32)), nil
+	case int64:
+		return float64(value.(int64)), nil
+	case float32:
+		return float64(value.(float32)), nil
 	case float64:
 		return value.(float64), nil
 	case string:
@@ -140,7 +151,7 @@ func (m Map) String(key string, def string) (string, error) {
 		return def, ErrTypeMismatch
 	}
 
-	return interfaceToString(value)
+	return interfaceToString(value, def)
 }
 
 // Retrieves a boolean.
@@ -184,7 +195,7 @@ func (m Map) StringArray(key string, def []string) ([]string, error) {
 		val := value.([]interface{})
 		sa = make([]string, len(val))
 		for i, s := range val {
-			sa[i], err = interfaceToString(s)
+			sa[i], err = interfaceToString(s, "")
 			if err != nil {
 				return def, ErrElementTypeMismatch
 			}
@@ -322,7 +333,7 @@ func (m Map) FromUrlValues(values url.Values) {
 }
 
 // Helper function to convert an interface{} to string
-func interfaceToString(v interface{}) (string, error) {
+func interfaceToString(v interface{}, def string) (string, error) {
 	switch v.(type) {
 	case string:
 		return v.(string), nil
@@ -337,6 +348,68 @@ func interfaceToString(v interface{}) (string, error) {
 	case int:
 		return strconv.Itoa(v.(int)), nil
 	default:
-		return "", ErrTypeMismatch
+		return def, ErrTypeMismatch
+	}
+}
+
+// Helper function to convert an interface{} to int
+func interfaceToInt(v interface{}, def int) (int, error) {
+	switch v.(type) {
+	case int:
+		return v.(int), nil
+	case int64:
+		return int(v.(int64)), nil
+	case float64:
+		return int(v.(float64)), nil
+	case string:
+		return strconv.Atoi(v.(string))
+	case bool:
+		i := 0
+		if v.(bool) {
+			i = 1
+		}
+		return i, nil
+	default:
+		return def, ErrTypeMismatch
+	}
+}
+
+// Helper function to convert an interface{} to float64
+func interfaceToFloat64(v interface{}, def float64) (float64, error) {
+	switch v.(type) {
+	case uint:
+		return float64(v.(uint)), nil
+	case uint8:
+		return float64(v.(uint8)), nil
+	case uint16:
+		return float64(v.(uint16)), nil
+	case uint32:
+		return float64(v.(uint32)), nil
+	case uint64:
+		return float64(v.(uint64)), nil
+	case int:
+		return float64(v.(int)), nil
+	case int8:
+		return float64(v.(int8)), nil
+	case int16:
+		return float64(v.(int16)), nil
+	case int32:
+		return float64(v.(int32)), nil
+	case int64:
+		return float64(v.(int64)), nil
+	case float32:
+		return float64(v.(float32)), nil
+	case float64:
+		return v.(float64), nil
+	case bool:
+		f := 0.0
+		if v.(bool) {
+			f = 1.0
+		}
+		return f, nil
+	case string:
+		return strconv.ParseFloat(v.(string), 64)
+	default:
+		return def, ErrTypeMismatch
 	}
 }
