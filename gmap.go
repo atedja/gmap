@@ -17,13 +17,16 @@ var timeformats = []string{
 }
 
 // ErrTypeMismatch is returned when gmap is not able to convert the underlying value to the type specified.
-var ErrTypeMismatch = errors.New("Key type mismatch")
+var ErrTypeMismatch = errors.New("Value type mismatch")
 
 // ErrElementTypeMismatch is returned when one of the elements of the underlying value has a different type.
 var ErrElementTypeMismatch = errors.New("One of the elements type mismatch")
 
 // ErrKeyDoesNotExist is returned when the specified key does not exist.
 var ErrKeyDoesNotExist = errors.New("Key does not exist")
+
+// ErrNilValue is returned when the underlying value is nil.
+var ErrNilValue = errors.New("Value is nil")
 
 // Map provides various utility functions for map[string]interface{}.
 type Map map[string]interface{}
@@ -37,7 +40,7 @@ func (m Map) Map(key string, def Map) (Map, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	switch value.(type) {
@@ -70,7 +73,7 @@ func (m Map) Array(key string, def []interface{}) ([]interface{}, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	switch value.(type) {
@@ -90,7 +93,7 @@ func (m Map) Int(key string, def int) (int, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	return interfaceToInt(value, def)
@@ -105,7 +108,7 @@ func (m Map) Float(key string, def float64) (float64, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	return interfaceToFloat64(value, def)
@@ -120,7 +123,7 @@ func (m Map) String(key string, def string) (string, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	return interfaceToString(value, def)
@@ -135,7 +138,7 @@ func (m Map) Boolean(key string, def bool) (bool, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	switch value.(type) {
@@ -157,7 +160,7 @@ func (m Map) StringArray(key string, def []string) ([]string, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	var err error
@@ -194,7 +197,7 @@ func (m Map) FloatArray(key string, def []float64) ([]float64, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	var err error
@@ -232,7 +235,7 @@ func (m Map) Time(key string, def time.Time) (time.Time, error) {
 	}
 
 	if value == nil {
-		return def, ErrTypeMismatch
+		return def, ErrNilValue
 	}
 
 	switch value.(type) {

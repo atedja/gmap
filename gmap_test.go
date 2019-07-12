@@ -34,7 +34,8 @@ const testPayload = `
  "TimeRFC1123": "Mon, 10 Jul 2017 12:13:47 GMT",
  "StringAsInt": "100",
  "StringAsFloat": "100.012",
- "StringAsBool": "true"
+ "StringAsBool": "true",
+ "NullValue": null
 }
 `
 
@@ -57,6 +58,10 @@ func TestString(t *testing.T) {
 
 	value, err = gmap.String("DoesNotExist", "")
 	assert.Equal(t, ErrKeyDoesNotExist, err)
+	assert.EqualValues(t, "", value)
+
+	value, err = gmap.String("NullValue", "")
+	assert.Equal(t, ErrNilValue, err)
 	assert.EqualValues(t, "", value)
 }
 
