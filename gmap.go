@@ -169,8 +169,8 @@ func (m Map) StringArray(key string, def []string) ([]string, error) {
 	case []interface{}:
 		val := value.([]interface{})
 		sa = make([]string, len(val))
-		for i, s := range val {
-			sa[i], err = interfaceToString(s, "")
+		for i, v := range val {
+			sa[i], err = interfaceToString(v, "")
 			if err != nil {
 				return def, ErrElementTypeMismatch
 			}
@@ -206,8 +206,8 @@ func (m Map) FloatArray(key string, def []float64) ([]float64, error) {
 	case []interface{}:
 		val := value.([]interface{})
 		fa = make([]float64, len(val))
-		for i, s := range val {
-			fa[i], err = interfaceToFloat64(s, 0.0)
+		for i, v := range val {
+			fa[i], err = interfaceToFloat64(v, 0.0)
 			if err != nil {
 				return def, ErrElementTypeMismatch
 			}
@@ -219,6 +219,43 @@ func (m Map) FloatArray(key string, def []float64) ([]float64, error) {
 		fa = make([]float64, len(val))
 		copy(fa, val)
 		return fa, nil
+
+	default:
+		return def, ErrTypeMismatch
+	}
+}
+
+// Retrieves an int array.
+// Returns the default value and an error if key does not exist or nil.
+func (m Map) IntArray(key string, def []int) ([]int, error) {
+	value, ok := m[key]
+	if !ok {
+		return def, ErrKeyDoesNotExist
+	}
+
+	if value == nil {
+		return def, ErrNilValue
+	}
+
+	var err error
+	var ia []int
+	switch value.(type) {
+	case []interface{}:
+		val := value.([]interface{})
+		ia = make([]int, len(val))
+		for i, v := range val {
+			ia[i], err = interfaceToInt(v, 0)
+			if err != nil {
+				return def, ErrElementTypeMismatch
+			}
+		}
+		return ia, nil
+
+	case []int:
+		val := value.([]int)
+		ia = make([]int, len(val))
+		copy(ia, val)
+		return ia, nil
 
 	default:
 		return def, ErrTypeMismatch

@@ -27,6 +27,9 @@ const testPayload = `
  "MixedFloatArray": [
 	"1", 2.9, 100, -3, false
  ],
+ "MixedIntArray": [
+	"1", 2.9, 100, -3, false
+ ],
  "TimeISO": "2017-07-10T12:13:47Z",
  "TimeRuby": "2017-07-10 12:13:47 UTC",
  "TimeRuby2": "2017-07-10 12:13:47 -0200",
@@ -213,6 +216,20 @@ func TestFloatArray(t *testing.T) {
 	value, err = gmap.FloatArray("MixedFloatArray", []float64{})
 	assert.Nil(t, err)
 	assert.Equal(t, []float64{1.0, 2.9, 100.0, -3.0, 0.0}, value)
+}
+
+func TestIntArray(t *testing.T) {
+	var gmap Map
+	var err error
+	var value []int
+
+	gmap = Map{}
+	err = json.Unmarshal([]byte(testPayload), &gmap)
+	assert.Nil(t, err)
+
+	value, err = gmap.IntArray("MixedIntArray", []int{})
+	assert.Nil(t, err)
+	assert.Equal(t, []int{1, 2, 100, -3, 0}, value)
 }
 
 func TestTime(t *testing.T) {
