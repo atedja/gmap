@@ -425,3 +425,31 @@ func TestFromKeysValues(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, 30, valueInt)
 }
+
+func TestKeysAndValues(t *testing.T) {
+	var gmap Map
+
+	gmap = Map{}
+	gmap["first"] = 1
+	gmap["second"] = 2
+	gmap["third"] = 3
+	gmap["fourth"] = 4
+	gmap["fifth"] = 5
+	values := gmap.Values()
+	keys := gmap.Keys()
+
+	// we are not testing the actual content because map iteration in Golang is not guaranteed
+	assert.Contains(t, values, 1)
+	assert.Contains(t, values, 2)
+	assert.Contains(t, values, 3)
+	assert.Contains(t, values, 4)
+	assert.Contains(t, values, 5)
+	assert.Contains(t, keys, "first")
+	assert.Contains(t, keys, "second")
+	assert.Contains(t, keys, "third")
+	assert.Contains(t, keys, "fourth")
+	assert.Contains(t, keys, "fifth")
+
+	values = gmap.Values("first", "third")
+	assert.Equal(t, []interface{}{1, 3}, values)
+}

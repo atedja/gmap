@@ -392,3 +392,28 @@ func (m Map) FromKeysValues(keys []string, values []interface{}) {
 		m[keys[i]] = values[i]
 	}
 }
+
+// Retrieve the values of the given keys
+// If no keys are given, returns the entire map
+func (m Map) Values(keys ...string) []interface{} {
+	values := make([]interface{}, 0)
+	if len(keys) == 0 {
+		for _, v := range m {
+			values = append(values, v)
+		}
+	} else {
+		for _, k := range keys {
+			values = append(values, m[k])
+		}
+	}
+	return values
+}
+
+// Retrieves the keys in the map
+func (m Map) Keys() []string {
+	keys := make([]string, 0)
+	for k, _ := range m {
+		keys = append(keys, k)
+	}
+	return keys
+}
