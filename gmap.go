@@ -13,6 +13,7 @@ var timeformats = []string{
 	"2006-01-02 15:04:05 -0700",
 	"2006-01-02 15:04:05 MST",
 	"2006-01-02 15:04:05 -0700 MST",
+	"Mon, 02 Jan 2006 15:04:05 GMT",
 }
 
 // ErrTypeMismatch is returned when gmap is not able to convert the underlying value to the type specified.
