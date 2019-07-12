@@ -381,7 +381,7 @@ func (m Map) FromUrlValues(values url.Values) {
 	}
 }
 
-// Fills map given an array of keys and values
+// Fills map given an array of keys and values.
 func (m Map) FromKeysValues(keys []string, values []interface{}) {
 	length := len(keys)
 	if len(values) < length {
@@ -393,8 +393,8 @@ func (m Map) FromKeysValues(keys []string, values []interface{}) {
 	}
 }
 
-// Retrieve the values of the given keys
-// If no keys are given, returns the entire map
+// Retrieves the values of the given keys.
+// If no keys are given, returns the entire map.
 func (m Map) Values(keys ...string) []interface{} {
 	values := make([]interface{}, 0)
 	if len(keys) == 0 {
@@ -409,7 +409,7 @@ func (m Map) Values(keys ...string) []interface{} {
 	return values
 }
 
-// Retrieves the keys in the map
+// Retrieves the keys in the map.
 func (m Map) Keys() []string {
 	keys := make([]string, 0)
 	for k, _ := range m {
