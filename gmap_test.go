@@ -404,3 +404,24 @@ func TestFromUrlValues(t *testing.T) {
 	nestedMap = nestedMap["even"].(Map)
 	assert.Equal(t, "easy there", nestedMap["deeper"])
 }
+
+func TestFromKeysValues(t *testing.T) {
+	var gmap Map
+
+	keys := []string{"first_name", "last_name", "address", "age", "extra"}
+	values := []interface{}{"bob", "foobar", "123 Main St", 30}
+
+	gmap = Map{}
+	gmap.FromKeysValues(keys, values)
+	value, err := gmap.String("last_name", "")
+	assert.Nil(t, err)
+	assert.Equal(t, "foobar", value)
+
+	value, err = gmap.String("extra", "")
+	assert.Equal(t, ErrKeyDoesNotExist, err)
+	assert.Equal(t, "", value)
+
+	valueInt, err := gmap.Int("age", 0)
+	assert.Nil(t, err)
+	assert.Equal(t, 30, valueInt)
+}

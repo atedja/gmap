@@ -380,3 +380,15 @@ func (m Map) FromUrlValues(values url.Values) {
 		}
 	}
 }
+
+// Fills map given an array of keys and values
+func (m Map) FromKeysValues(keys []string, values []interface{}) {
+	length := len(keys)
+	if len(values) < length {
+		length = len(values)
+	}
+
+	for i := 0; i < length; i++ {
+		m[keys[i]] = values[i]
+	}
+}
