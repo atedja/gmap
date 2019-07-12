@@ -35,6 +35,7 @@ const testPayload = `
  "TimeRuby2": "2017-07-10 12:13:47 -0200",
  "TimeDefault": "2017-07-10 12:13:47 -0700 PDT",
  "TimeRFC1123": "Mon, 10 Jul 2017 12:13:47 GMT",
+ "TimeCommonLog": "10/Jul/2017:12:13:47 -0700",
  "StringAsInt": "100",
  "StringAsFloat": "100.012",
  "StringAsBool": "true",
@@ -290,6 +291,15 @@ func TestTime(t *testing.T) {
 	assert.Equal(t, 47, value.Second())
 	zone, _ = value.Zone()
 	assert.Equal(t, "UTC", zone)
+
+	value, _ = gmap.Time("TimeCommonLog", def)
+	assert.Equal(t, time.July, value.Month())
+	assert.Equal(t, 10, value.Day())
+	assert.Equal(t, 2017, value.Year())
+	assert.Equal(t, 12, value.Hour())
+	assert.Equal(t, 13, value.Minute())
+	assert.Equal(t, 47, value.Second())
+	zone, _ = value.Zone()
 }
 
 func TestTimeUTC(t *testing.T) {
@@ -348,6 +358,16 @@ func TestTimeUTC(t *testing.T) {
 	assert.Equal(t, 10, value.Day())
 	assert.Equal(t, 2017, value.Year())
 	assert.Equal(t, 12, value.Hour())
+	assert.Equal(t, 13, value.Minute())
+	assert.Equal(t, 47, value.Second())
+	zone, _ = value.Zone()
+	assert.Equal(t, "UTC", zone)
+
+	value, _ = gmap.TimeUTC("TimeCommonLog", def)
+	assert.Equal(t, time.July, value.Month())
+	assert.Equal(t, 10, value.Day())
+	assert.Equal(t, 2017, value.Year())
+	assert.Equal(t, 19, value.Hour())
 	assert.Equal(t, 13, value.Minute())
 	assert.Equal(t, 47, value.Second())
 	zone, _ = value.Zone()
