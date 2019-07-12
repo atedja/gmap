@@ -15,8 +15,13 @@ var timeformats = []string{
 	"2006-01-02 15:04:05 -0700 MST",
 }
 
+// ErrTypeMismatch is returned when gmap is not able to convert the underlying value to the type specified.
 var ErrTypeMismatch = errors.New("Key type mismatch")
+
+// ErrElementTypeMismatch is returned when one of the elements of the underlying value has a different type.
 var ErrElementTypeMismatch = errors.New("One of the elements type mismatch")
+
+// ErrKeyDoesNotExist is returned when the specified key does not exist.
 var ErrKeyDoesNotExist = errors.New("Key does not exist")
 
 // Map provides various utility functions for map[string]interface{}.
@@ -172,14 +177,15 @@ func (m Map) StringArray(key string, def []string) ([]string, error) {
 		return def, ErrTypeMismatch
 	}
 
+	var err error
 	var sa []string
 	switch value.(type) {
 	case []interface{}:
 		val := value.([]interface{})
 		sa = make([]string, len(val))
 		for i, s := range val {
-			sa[i], ok = s.(string)
-			if !ok {
+			sa[i], err = interfaceToString(s)
+			if err != nil {
 				return def, ErrElementTypeMismatch
 			}
 		}
@@ -238,7 +244,8 @@ func (m Map) TimeUTC(key string, def time.Time) (time.Time, error) {
 	return t.UTC(), err
 }
 
-// Slices this map to return a new Map with only the given keys.
+// Slice returns a new Map with only the given keys.
+// Opposite of Except.
 func (m Map) Slice(keys ...string) Map {
 	mp := Map{}
 	for _, k := range keys {
@@ -250,7 +257,8 @@ func (m Map) Slice(keys ...string) Map {
 	return mp
 }
 
-// Returns a new Map except the given keys.
+// Except returns a new Map except the given keys.
+// Opposite of Slice.
 func (m Map) Except(keys ...string) Map {
 	mp := Map{}
 	for k, v := range m {

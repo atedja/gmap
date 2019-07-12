@@ -21,6 +21,9 @@ const testPayload = `
  "StringArray": [
 	"1", "a", "2"
  ],
+ "MixedStringArray": [
+	"1", "a", 2.9, 100, -3, "foobar"
+ ],
  "TimeISO": "2017-07-10T12:13:47Z",
  "TimeRuby": "2017-07-10 12:13:47 UTC",
  "TimeRuby2": "2017-07-10 12:13:47 -0200",
@@ -183,6 +186,10 @@ func TestStringArray(t *testing.T) {
 	value, err = gmap.StringArray("StringArray", []string{})
 	assert.Nil(t, err)
 	assert.Equal(t, []string{"1", "a", "2"}, value)
+
+	value, err = gmap.StringArray("MixedStringArray", []string{})
+	assert.Nil(t, err)
+	assert.Equal(t, []string{"1", "a", "2.9", "100", "-3", "foobar"}, value)
 }
 
 func TestTime(t *testing.T) {
