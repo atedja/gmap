@@ -184,6 +184,43 @@ func (m Map) StringArray(key string, def []string) ([]string, error) {
 	}
 }
 
+// Retrieves an float64 array.
+// Returns the default value and an error if key does not exist or nil.
+func (m Map) FloatArray(key string, def []float64) ([]float64, error) {
+	value, ok := m[key]
+	if !ok {
+		return def, ErrKeyDoesNotExist
+	}
+
+	if value == nil {
+		return def, ErrTypeMismatch
+	}
+
+	var err error
+	var fa []float64
+	switch value.(type) {
+	case []interface{}:
+		val := value.([]interface{})
+		fa = make([]float64, len(val))
+		for i, s := range val {
+			fa[i], err = interfaceToFloat64(s, 0.0)
+			if err != nil {
+				return def, ErrElementTypeMismatch
+			}
+		}
+		return fa, nil
+
+	case []float64:
+		val := value.([]float64)
+		fa = make([]float64, len(val))
+		copy(fa, val)
+		return fa, nil
+
+	default:
+		return def, ErrTypeMismatch
+	}
+}
+
 // Retrieves time.
 // Can convert time value if it's a string and in the recognized format.
 // Returns the default value and an error if key does not exist or nil.
