@@ -29,8 +29,22 @@ func interfaceToInt(v interface{}, def int) (int, error) {
 	switch v.(type) {
 	case int:
 		return v.(int), nil
+	case int8:
+		return int(v.(int8)), nil
+	case int16:
+		return int(v.(int16)), nil
 	case int64:
 		return int(v.(int64)), nil
+	case uint:
+		return int(v.(uint)), nil
+	case uint8:
+		return int(v.(uint8)), nil
+	case uint16:
+		return int(v.(uint16)), nil
+	case uint64:
+		return int(v.(uint64)), nil
+	case float32:
+		return int(v.(float32)), nil
 	case float64:
 		return int(v.(float64)), nil
 	case string:
