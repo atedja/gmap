@@ -9,7 +9,12 @@ This package has various utility functions and wraps all the ugly details of dea
  Feature Summary:
 
 * Automatic Type Conversion from various formats to `int`, `float64`, `string`, and `time.Time`.
-* `string` to `time.Time` auto conversion accepts the following time formats: ISO8601, RFC1123/RFC2822, [Common Log Format](https://en.wikipedia.org/wiki/Common_Log_Format), and Golang [`time.Time.String()`](https://golang.org/pkg/time/#Time.String) method, and Ruby's `Time#to_s` default format.
+* `string` to `time.Time` auto conversion accepts the following time formats:
+  * ISO8601
+  * RFC1123/RFC2822
+  * [Common Log Format](https://en.wikipedia.org/wiki/Common_Log_Format)
+  * Golang [`time.Time.String()`](https://golang.org/pkg/time/#Time.String) format.
+  * Ruby `Time#to_s` default format.
 * `Slice` and `Except` to filter out keys.
 * `Select` and `Reject` to filter out key/value pairs using a custom function.
 * `Reduce` to reduce your map using a custom function.
