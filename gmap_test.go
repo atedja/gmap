@@ -31,11 +31,11 @@ const testPayload = `
 	"1", 2.9, 100, -3, false
  ],
  "TimeISO": "2017-07-10T12:13:47Z",
+ "TimeRFC1123": "Mon, 10 Jul 2017 12:13:47 GMT",
+ "TimeCommonLog": "10/Jul/2017:12:13:47 -0700",
  "TimeRuby": "2017-07-10 12:13:47 UTC",
  "TimeRuby2": "2017-07-10 12:13:47 -0200",
  "TimeDefault": "2017-07-10 12:13:47 -0700 PDT",
- "TimeRFC1123": "Mon, 10 Jul 2017 12:13:47 GMT",
- "TimeCommonLog": "10/Jul/2017:12:13:47 -0700",
  "StringAsInt": "100",
  "StringAsFloat": "100.012",
  "StringAsBool": "true",
