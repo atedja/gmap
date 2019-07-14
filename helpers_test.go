@@ -57,10 +57,45 @@ func TestInterfaceToInt(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, 1, i)
 
-	v = int64(1000)
+	v = int64(-1000)
+	i, err = interfaceToInt(v, 0)
+	assert.Nil(t, err)
+	assert.Equal(t, -1000, i)
+
+	v = int32(-1000)
+	i, err = interfaceToInt(v, 0)
+	assert.Nil(t, err)
+	assert.Equal(t, -1000, i)
+
+	v = int16(-1000)
+	i, err = interfaceToInt(v, 0)
+	assert.Nil(t, err)
+	assert.Equal(t, -1000, i)
+
+	v = int8(-100)
+	i, err = interfaceToInt(v, 0)
+	assert.Nil(t, err)
+	assert.Equal(t, -100, i)
+
+	v = uint64(1000)
 	i, err = interfaceToInt(v, 0)
 	assert.Nil(t, err)
 	assert.Equal(t, 1000, i)
+
+	v = uint32(1000)
+	i, err = interfaceToInt(v, 0)
+	assert.Nil(t, err)
+	assert.Equal(t, 1000, i)
+
+	v = uint16(1000)
+	i, err = interfaceToInt(v, 0)
+	assert.Nil(t, err)
+	assert.Equal(t, 1000, i)
+
+	v = uint8(100)
+	i, err = interfaceToInt(v, 0)
+	assert.Nil(t, err)
+	assert.Equal(t, 100, i)
 
 	v = make([]string, 10)
 	i, err = interfaceToInt(v, -1)

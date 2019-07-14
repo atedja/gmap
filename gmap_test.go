@@ -290,7 +290,7 @@ func TestTime(t *testing.T) {
 	assert.Equal(t, 13, value.Minute())
 	assert.Equal(t, 47, value.Second())
 	zone, _ = value.Zone()
-	assert.Equal(t, "UTC", zone)
+	assert.Equal(t, "GMT", zone)
 
 	value, _ = gmap.Time("TimeCommonLog", def)
 	assert.Equal(t, time.July, value.Month())
