@@ -9,6 +9,10 @@ func Cheap(key string, value interface{}) bool {
 	return value.(int) < 100
 }
 
+func Pricey(k string, value interface{}) bool {
+	return value.(int) > 100
+}
+
 func TestSelect(t *testing.T) {
 	var prices = Map{}
 	prices["toothpaste"] = 100
@@ -20,4 +24,17 @@ func TestSelect(t *testing.T) {
 	assert.Nil(t, result["watermelons"])
 	assert.Nil(t, result["toothpaste"])
 	assert.Nil(t, result["vodka"])
+}
+
+func TestReject(t *testing.T) {
+	var prices = Map{}
+	prices["toothpaste"] = 100
+	prices["cookies"] = 80
+	prices["watermelons"] = 200
+	prices["vodka"] = 400
+	result := prices.Reject(Pricey)
+	assert.Equal(t, 100, result["toothpaste"].(int))
+	assert.Equal(t, 80, result["cookies"].(int))
+	assert.Nil(t, result["vodka"])
+	assert.Nil(t, result["watermelons"])
 }
