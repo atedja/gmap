@@ -1,7 +1,6 @@
 package gmap
 
 import (
-	"errors"
 	"net/url"
 	"strconv"
 	"strings"
@@ -16,18 +15,6 @@ var timeformats = []string{
 	"2006-01-02 15:04:05 MST",
 	"2006-01-02 15:04:05 -0700 MST",
 }
-
-// ErrTypeMismatch is returned when gmap is not able to convert the underlying value to the type specified.
-var ErrTypeMismatch = errors.New("Value type mismatch")
-
-// ErrElementTypeMismatch is returned when one of the elements of the underlying value has a different type.
-var ErrElementTypeMismatch = errors.New("One of the elements type mismatch")
-
-// ErrKeyDoesNotExist is returned when the specified key does not exist.
-var ErrKeyDoesNotExist = errors.New("Key does not exist")
-
-// ErrNilValue is returned when the underlying value is nil.
-var ErrNilValue = errors.New("Value is nil")
 
 // Map provides various utility functions for map[string]interface{}.
 type Map map[string]interface{}
